@@ -6,6 +6,11 @@ export const metadata: Metadata = {
   description:
     "IN PLUS buxgalteriya, soliq, 1C va biznes amaliyoti bo'yicha kurslar katalogi.",
   metadataBase: new URL("https://soliqkonstruktor.uz"),
+  icons: {
+    icon: "/logoIcon.png",
+    shortcut: "/logoIcon.png",
+    apple: "/logoIcon.png",
+  },
 };
 
 export default function RootLayout({

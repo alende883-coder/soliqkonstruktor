@@ -1,140 +1,125 @@
 export type Locale = "uz" | "ru";
 
-type LinkItem = {
-  label: string;
-  href: string;
-};
+export type LeadSource = "course" | "price" | "silver" | "premium";
 
-type TextItem = {
-  title: string;
-  text: string;
-};
-
-type Plan = {
-  name: string;
-  kicker: string;
-  items: string[];
-  note: string;
-  cta: string;
-  featured?: boolean;
-};
-
-export type FormContent = {
-  eyebrow: string;
-  title: string;
-  text: string;
-  integrationNote: string;
-  nameLabel: string;
-  namePlaceholder: string;
-  phoneLabel: string;
-  phonePlaceholder: string;
-  interestLabel: string;
-  interests: Array<{ value: string; label: string }>;
-  messageLabel: string;
-  messagePlaceholder: string;
-  submit: string;
-  successButton: string;
-  success: string;
-  error: string;
-};
+type NavLink = { label: string; href: string };
 
 export type SiteContent = {
   locale: Locale;
   navigation: {
     ariaLabel: string;
     languageLabel: string;
-    links: LinkItem[];
+    links: NavLink[];
   };
   media: {
     hero: string;
     testimonials: Array<{ src: string; alt: string }>;
   };
   hero: {
-    eyebrow: string;
-    title: string;
-    lede: string;
+    brandLine: string;
+    titleStrong: string;
+    titleRest: string;
     primaryCta: string;
-    secondaryCta: string;
     visualAlt: string;
-    instructor: {
-      name: string;
-      role: string;
-    };
-    stats: Array<{ value: string; label: string }>;
   };
-  problem: {
-    eyebrow: string;
+  problems: {
     title: string;
-    text: string;
-    items: TextItem[];
+    items: Array<{ title: string; text: string; highlighted?: boolean }>;
   };
-  risks: {
-    eyebrow: string;
+  consequences: {
     title: string;
-    text: string;
     cta: string;
-    items: TextItem[];
+    items: Array<{ label: string; lead: string; text: string }>;
   };
-  method: {
-    eyebrow: string;
+  solution: {
     title: string;
-    text: string;
-    items: TextItem[];
+    subtitle: string;
+    cta: string;
+    items: string[];
   };
   outcomes: {
     eyebrow: string;
     title: string;
-    text: string;
+    cta: string;
     items: string[];
   };
-  format: {
+  founder: {
     eyebrow: string;
-    title: string;
-    text: string;
-    items: string[];
+    name: string;
+    role: string;
+    facts: string[];
   };
   trust: {
     eyebrow: string;
     title: string;
     text: string;
   };
-  bonus: {
+  bonuses: {
     eyebrow: string;
     title: string;
-    text: string;
+    note: string;
     items: string[];
   };
-  cohort: {
-    eyebrow: string;
+  scarcity: {
     title: string;
     text: string;
-    number: string;
   };
-  pricing: {
+  tariffs: {
     eyebrow: string;
     title: string;
     text: string;
-    plans: Plan[];
+    note: string;
+    items: Array<{
+      id: "silver" | "premium";
+      name: string;
+      tagline: string;
+      features: string[];
+      cta: string;
+      highlighted?: boolean;
+    }>;
   };
   notFor: {
     eyebrow: string;
     title: string;
-    text: string;
+    subtitle: string;
     items: string[];
   };
   faq: {
     eyebrow: string;
     title: string;
-    text: string;
     items: Array<{ question: string; answer: string }>;
   };
-  form: FormContent;
+  catalogTeaser: {
+    eyebrow: string;
+    title: string;
+    text: string;
+  };
+  ctas: {
+    enroll: string;
+    knowPrice: string;
+    join: string;
+    viewCourses: string;
+  };
+  leadForm: {
+    titles: Record<LeadSource, string>;
+    nameLabel: string;
+    namePlaceholder: string;
+    phoneLabel: string;
+    phonePlaceholder: string;
+    submit: string;
+    sending: string;
+    successTitle: string;
+    successText: string;
+    close: string;
+    consent: string;
+    errors: { name: string; phone: string; generic: string };
+  };
 };
 
 const testimonialMedia = [
   {
     src: "https://static.tildacdn.one/tild6636-3966-4734-b637-343731633734/011-min_1.png",
-    alt: "Glavbux kursi o'quvchisi fikri",
+    alt: "IN PLUS o'quvchisi fikri",
   },
   {
     src: "https://static.tildacdn.one/tild3933-3962-4434-b334-646636623637/012-min_1.png",
@@ -154,6 +139,9 @@ const testimonialMedia = [
   },
 ];
 
+const heroImage =
+  "https://static.tildacdn.one/tild6631-3939-4437-b338-366332346264/Main_bg1-min.png";
+
 export const siteContent: Record<Locale, SiteContent> = {
   uz: {
     locale: "uz",
@@ -161,260 +149,238 @@ export const siteContent: Record<Locale, SiteContent> = {
       ariaLabel: "Asosiy bo'limlar",
       languageLabel: "Til tanlash",
       links: [
-        { label: "Muammo", href: "#problems" },
-        { label: "Natija", href: "#program" },
-        { label: "Tariflar", href: "#pricing" },
-        { label: "Savollar", href: "#faq" },
+        { label: "Muammolar", href: "/#problems" },
+        { label: "Natijalar", href: "/#outcomes" },
+        { label: "Tariflar", href: "/#tariffs" },
+        { label: "Kurslar", href: "/courses" },
+        { label: "Savollar", href: "/#faq" },
       ],
     },
     media: {
-      hero: "https://static.tildacdn.one/tild6631-3939-4437-b338-366332346264/Main_bg1-min.png",
+      hero: heroImage,
       testimonials: testimonialMedia,
     },
     hero: {
-      eyebrow: "IN PLUS amaliy kursi",
-      title: "3 oy ichida buxgalteriya va soliq ishlarini tartibli o'rganing",
-      lede:
-        "Hisobot topshirish, soliq hujjatlari va 1C bo'yicha real vazifalarni amaliyotchilar bilan ishlab chiqasiz.",
-      primaryCta: "Konsultatsiya olish",
-      secondaryCta: "Kurs tarkibini ko'rish",
-      visualAlt: "IN PLUS kurs asoschisi Zamira Djurayeva",
-      instructor: {
-        name: "Zamira Djurayeva",
-        role: "20+ yillik tajribaga ega soliq maslahatchi",
-      },
-      stats: [
-        { value: "3 oy", label: "tartibli dastur" },
-        { value: "20+", label: "yil amaliy tajriba" },
-        { value: "6000+", label: "ishonch bildirgan buxgalter" },
-        { value: "40", label: "guruhdagi cheklangan joy" },
-      ],
+      brandLine: "Tajribali mutaxassislardan buxgalteriya va soliq darslarini",
+      titleStrong: "3 oy ichida buxgalter",
+      titleRest:
+        "sifatida bilimingizni oshirib, oylik 20-30 mln daromadga chiqing",
+      primaryCta: "Kursga ro'yxatdan o'tish",
+      visualAlt: "IN PLUS kursi asoschisi Zamira Djurayeva",
     },
-    problem: {
-      eyebrow: "Boshlanish nuqtasi",
+    problems: {
       title:
-        "Hisobot, soliq hujjatlari yoki 1C bilan ishlashda qayerda to'xtab qolyapsiz?",
-      text:
-        "Bu blok muammoni qo'rqitish uchun emas, foydalanuvchi o'z holatini tez tanishi uchun ishlaydi.",
+        "Siz hisobot topshirishda, soliq hujjatlari bilan ishlashda yoki 1C dasturida muammolaga duch kelyapsizmi?",
       items: [
         {
-          title: "Moliyaviy hisobotlarda xatolar",
-          text: "Topshirish jarayonida mayda xatolar katta jarima va qayta topshirishga olib kelishi mumkin.",
+          title: "Moliyaviy hisobotlarni",
+          text: "topshirishda xatolar",
+          highlighted: true,
         },
         {
-          title: "Soliq xatlariga javob yozish",
-          text: "Xat mazmuni, asos va muddatlar aniq bo'lmaganda ish cho'zilib ketadi.",
+          title: "Soliqdan kelgan xatga",
+          text: "qanday javob yozishni bilmaslik",
         },
         {
-          title: "1C, eksport va TMZ bilan qiyinchilik",
-          text: "Amaliy sozlashlar va hujjat aylanishi tushunilmasa, kundalik ish sekinlashadi.",
+          title: "1C dasturida ishlab",
+          text: "chiqarish, eksport yoki TMZ bilan qiynalish",
         },
         {
-          title: "Hisobot yopishda ishonchsizlik",
-          text: "Oy yakuni, balans va foyda hisobotlari bo'yicha tartibli jarayon kerak bo'ladi.",
+          title: "Hisobotlarni yopishda",
+          text: "ishonchsizlik",
         },
       ],
     },
-    risks: {
-      eyebrow: "Natijani kechiktirish narxi",
+    consequences: {
       title:
-        "Muammolarni hal qilmaslik qanday oqibatlarga olib kelishini oldindan ko'rish kerak",
-      text:
-        "Kursning vazifasi nazariya yig'ish emas, ishda uchraydigan xavflarni oldindan tartibga solish.",
-      cta: "Muammolarni tartibga solish",
+        "Muammolaringizni hal qilmaslik qanday oqibatlarga olib kelishini o'ylab ko'rdingizmi?",
+      cta: "Muammolardan qutulish",
       items: [
         {
-          title: "Xato hisobot jarimaga sabab bo'ladi",
-          text: "Har bir noto'g'ri yopilgan davr keyingi oy ishiga ham ta'sir qiladi.",
+          label: "1-MUAMMO",
+          lead: "Har bir xato yozilgan hisobot",
+          text: "natijasi millionlab jarimaga sabab bo'ladi",
         },
         {
-          title: "Imtiyozlardan foydalana olmaslik",
-          text: "Qonuniy imkoniyatlarni bilmaslik ortiqcha xarajat va yo'qotilgan foyda demakdir.",
+          label: "2-MUAMMO",
+          lead: "Qonuniy imtiyozlardan",
+          text: "foydalanolmaslik",
         },
         {
-          title: "Qonunlar tez o'zgaradi",
-          text: "Bitta noto'g'ri qaror kompaniyaga sezilarli zarar keltirishi mumkin.",
+          label: "3-MUAMMO",
+          lead: "Har yili o'zgaradigan qonunlarni bilmaslik",
+          text:
+            "natijasida 1ta noto'g'ri qaror bilan kompaniyaga millionlab zarar keltirish",
         },
       ],
     },
-    method: {
-      eyebrow: "Yechim modeli",
-      title: "Muammo sizda emas, tizimli amaliy yondashuv yetishmayapti",
-      text:
-        "Shuning uchun kurs faqat ma'ruza emas: qonun, 1C, hujjat, keys va mentorlik bir jarayonga yig'iladi.",
+    solution: {
+      title: "Xo'sh, bu muammolardan qanday qutulish mumkin?",
+      subtitle:
+        "Muammo sizda emas, sizga faqat amaliyotchi ustozlar va strategik yondashuv uchun bilimlar yetishmayapti.",
+      cta: "Kursda o'qishni boshlash",
       items: [
-        {
-          title: "Amaliyotchi ustozlar",
-          text: "Soliq va buxgalteriya bilan har kuni ishlaydigan mutaxassislar tajribasi asosida.",
-        },
-        {
-          title: "Qonunlarni ishlatish",
-          text: "Qoidani yodlash emas, uni real vaziyatda foydaga ishlatish.",
-        },
-        {
-          title: "1Cda professional ishlash",
-          text: "Hujjatlar, hisobotlar va ishlab chiqarish jarayonlari amaliy misollarda.",
-        },
-        {
-          title: "Mentor va yopiq guruh",
-          text: "Savol tug'ilganda yolg'iz qolmaslik uchun qo'llab-quvvatlash kanallari.",
-        },
+        "20 yildan oshiq tajribaga ega soliq maslahatchilardan o'rganasiz",
+        "Qonunlarni to'g'ri tushunishni va o'z foydangizga ishlatishni o'rganasiz!",
+        "Hisobotlarni to'g'ri yopishni hamda 1Cda professional ishlashni amaliy misollarda ko'rasiz!",
+        "Jarayonni osonlashtiradigan mentor, koll-markaz va yopiq guruhlarga ega bo'lasiz",
       ],
     },
     outcomes: {
-      eyebrow: "Kursdan chiqadigan natija",
+      eyebrow: "Natijalar",
       title: "Siz bu kurs orqali nimalarga erishasiz?",
-      text:
-        "Natijalar bilimlar ro'yxati emas, ishda bajariladigan vazifalar bo'yicha tuzilgan.",
+      cta: "Kursda bepul qatnashishni boshlash",
       items: [
         "Soliq imtiyozlaridan foydalanish",
         "1Cda ishlab chiqarish, eksport va qurilishni yuritish",
         "Har oyda balans va foyda hisobotlarini yopish",
         "Soliq xatlariga qonuniy asos bilan javob yozish",
-        "Sudda himoya va audit tekshiruvlariga tayyorgarlik",
+        "Sudda himoya, audit tekshiruvlarida tayyorlik",
         "Ortiqcha to'langan soliq to'lovlarini qaytarish",
         "Tekshiruvlardan oldin hujjatlarni tayyor holga keltirish",
-        "Turli kompaniyalarning buxgalteriya hisobini yuritish",
+        "Barcha turdagi kompaniyalarning buxgalteriya hisobini yuritish bilimi",
       ],
     },
-    format: {
-      eyebrow: "Dastur formati",
-      title: "Kurs qanday tashkil qilingan?",
-      text:
-        "Eski sahifadagi tarqoq faktlar bu yerda bitta aniq blokka yig'ildi.",
-      items: [
-        "Kurs 3 oy davom etadi",
-        "Har hafta 1 marta 3 soatlik dars",
-        "Darslar oflayn yoki Zoom orqali",
-        "Ishlaydiganlar uchun qulay vaqt",
-        "200+ videodars va 6 oylik takroriy ko'rish imkoniyati",
+    founder: {
+      eyebrow: "Kurs asoschisi",
+      name: "Zamira Djurayeva",
+      role: "20+ yillik tajribaga ega soliq maslahatchi",
+      facts: [
+        "200+ videodars + 6 oylik takroriy ko'rish imkoniyati",
         "Har dars amaliy topshiriqlar va haqiqiy keyslar asosida",
-        "Kurs asoschisi - Zamira Djurayeva",
-        "Darslar amaliy mutaxassislar tomonidan o'tiladi",
+        "Qulay vaqt: ishlaydiganlar uchun moslashtirilgan",
+        "Darslar oflayn/Zoom orqali",
+        "Har hafta 1 marta 3 soatlik dars",
+        "Kurs 3 oy davom etadi",
+        "Darslar xalqaro tashkilotlarda ishlagan amaliy mutaxassislar tomonidan o'tiladi",
       ],
     },
     trust: {
       eyebrow: "Ijtimoiy isbot",
-      title: "6000+ buxgalter IN PLUSga ishonch bildirgan",
-      text:
-        "Video fikrlar alohida galereyaga ajratiladi, sahifaning asosiy ritmini buzmaydi.",
+      title: "6000+ dan ortiq buxgalterlar bizga ishonch bildirgan",
+      text: "Quyida ularning fikrlari bilan tanishishingiz mumkin!",
     },
-    bonus: {
-      eyebrow: "Qo'shimcha materiallar",
-      title: "Bonuslar",
-      text:
-        "Bonus blok reklama shovqini emas, darsdan keyin ishlatiladigan amaliy material sifatida ko'rsatiladi.",
+    bonuses: {
+      eyebrow: "Bonuslar",
+      title: "Ro'yxatdan o'tganlarga maxsus bonuslar",
+      note: "faqat 9 daqiqa ichida ro'yxatdan o'tsangiz",
       items: [
-        '"Glavbux: daromadni 5 barobar oshirish" darsligi',
-        "Qonunchilikni izlash va ishlatish bo'yicha shablonlar",
-        "Provodkalar, OSV va balans darsligi",
         "Hisobotlarni to'ldirish bo'yicha checklistlar",
+        "Provodkalar, OSV va balans darsligi",
+        "Qonunchilikni izlash va ishlatish bo'yicha shablonlar",
+        "\"Glavbux: daromadini 5 barobar oshirish\" darsligi",
       ],
     },
-    cohort: {
-      eyebrow: "Guruh hajmi",
-      title: "Diqqat qiling, joylar soni cheklangan",
+    scarcity: {
+      title: "Diqqat qiling! Joylar soni cheklangan!",
       text:
-        "O'quvchilar natijaga chiqishi uchun guruh hajmi nazorat qilinadi.",
-      number: "40",
+        "O'quvchilarimiz natijaga chiqishi uchun faqat 40 ta buxgalterni kursga qabul qilamiz",
     },
-    pricing: {
-      eyebrow: "Tariflar",
+    tariffs: {
+      eyebrow: "Kurs tariflari",
       title: "Kurs tariflari",
-      text:
-        "Narxlar hozircha ariza orqali beriladi. To'lov provayderi tanlangandan keyin onlayn sotib olish oqimi ulanadi.",
-      plans: [
+      text: "O'zingizga mos tarifni tanlang va narxlar bilan tanishish uchun ariza qoldiring.",
+      note: "Narxlar bilan tanishish uchun ariza qoldiring!",
+      items: [
         {
-          name: "Silver",
-          kicker: "Asosiy format",
-          items: [
-            "3 oyda haftasiga 1 marta 3 soatlik darslar",
+          id: "silver",
+          name: "SILVER",
+          tagline: "Asosiy tarif",
+          features: [
+            "200+ videodarslar va 6 oylik takroriy ko'rish",
+            "Amaliy topshiriqlar, keyslar va haqiqiy hisobotlar",
+            "3 oyda haftasiga 1 marta 3 soatlik darslar (oflayn/Zoom)",
             "Tarqatma materiallar",
-            "Koll-markaz va mentor yordamida maslahat",
           ],
-          note: "Narxni bilish uchun ariza qoldiring.",
-          cta: "Narxini bilish",
+          cta: "Silver tarifini tanlash",
         },
         {
-          name: "Premium",
-          kicker: "Kengaytirilgan format",
-          featured: true,
-          items: [
-            "3 oyda haftasiga 1 marta 3 soatlik darslar",
-            "200+ videodars va 6 oylik takroriy ko'rish",
+          id: "premium",
+          name: "PREMIUM",
+          tagline: "To'liq tarif",
+          features: [
+            "SILVER tarifidagi barcha imkoniyatlar",
+            "Hisobotlarni to'ldirish bo'yicha checklistlar",
+            "Provodkalar, OSV va balans darsligi hamda shablonlar",
+            "\"Glavbux\" darsligi va yopiq Telegram guruh",
             "Koll-markaz va mentor yordamida maslahat",
-            "Yopiq Telegram guruh",
-            "Amaliy topshiriqlar, keyslar va haqiqiy hisobotlar",
-            "Barcha bonus materiallar",
           ],
-          note: "Onlayn to'lov provayderi keyin ulanadi.",
-          cta: "Premium bo'yicha ariza",
+          cta: "Premium tarifini tanlash",
+          highlighted: true,
         },
       ],
     },
     notFor: {
-      eyebrow: "Mos kelish tekshiruvi",
+      eyebrow: "Diqqat",
       title: "Bu kurs kimlar uchun emas?",
-      text:
-        "Bu blok foydalanuvchini haydash uchun emas, noto'g'ri kutilmalarni kamaytirish uchun kerak.",
+      subtitle: "Aksincha bo'lsa – bu aynan siz uchun!",
       items: [
-        "Darslarga qatnashmaydiganlar",
-        "Amaliy topshiriqlarni bajarmaydiganlar",
         "Bosh buxgalterlik mas'uliyatini olishdan qo'rqadiganlar",
+        "Amaliy topshiriqlarni bajarmaydiganlar",
+        "Darslarga qatnashmaydiganlar",
       ],
     },
     faq: {
       eyebrow: "Aniqlik",
       title: "Ko'p so'raladigan savollar",
-      text:
-        "Savollar qisqa va foydalanuvchining qaroriga ta'sir qiladigan joylarga qaratilgan.",
       items: [
         {
           question: "Darslar qayerda o'tiladi?",
           answer:
-            "Darslar Zoom orqali va oflayn tarzda bo'lib o'tadi. O'zingizga qulay formatni tanlashingiz mumkin.",
+            "Darslar oflayn hamda Zoom orqali onlayn o'tkaziladi. O'zingizga qulay formatni tanlashingiz mumkin.",
         },
         {
           question: "Qanday kafolat bor?",
           answer:
-            "Kurs amaliy topshiriqlar, mentorlik va haqiqiy keyslar asosida tuziladi. Natija darsga qatnashish va topshiriqlarni bajarishga bog'liq.",
+            "Amaliy topshiriqlarni bajarib, darslarda qatnashsangiz natijaga chiqasiz. Barcha materiallar 6 oy davomida sizda qoladi.",
         },
         {
           question: "Darslar yozib olinadimi?",
           answer:
-            "Premium formatda videodarslar va takroriy ko'rish imkoniyati ko'zda tutilgan.",
+            "Ha, barcha darslar yozib olinadi va siz ularni 6 oy davomida qayta ko'rishingiz mumkin.",
         },
         {
           question: "1Cni bilmasam ham qatnasha olamanmi?",
           answer:
-            "Ha, lekin boshlang'ich ko'nikmalar bo'yicha holatingiz konsultatsiyada aniqlanadi.",
+            "Ha, kurs noldan boshlanadi. 1Cni bilmasangiz ham amaliy misollar orqali bosqichma-bosqich o'rganasiz.",
         },
       ],
     },
-    form: {
-      eyebrow: "Bitta ariza",
-      title: "Kurs bo'yicha konsultatsiya oling",
-      text:
-        "Barcha CTA tugmalari shu formaga olib keladi. Hozircha ma'lumot operatorlarga yuborilishi uchun tayyorlangan lokal stub ishlaydi.",
-      integrationNote:
-        "Firebase, Telegram va to'lov provayderi loyiha akkauntlari tayyor bo'lgandan keyin ulanadi.",
-      nameLabel: "Ism",
+    catalogTeaser: {
+      eyebrow: "Kurslar",
+      title: "IN PLUS'ning barcha kurslari",
+      text: "Buxgalteriya, soliq, 1C va biznes amaliyoti bo'yicha to'liq kurslar katalogini ko'ring.",
+    },
+    ctas: {
+      enroll: "Kursga ro'yxatdan o'tish",
+      knowPrice: "Narxni bilish",
+      join: "Kursda qatnashaman",
+      viewCourses: "Barcha kurslar",
+    },
+    leadForm: {
+      titles: {
+        course: "Kursga ro'yxatdan o'tish uchun ushbu formani to'ldiring",
+        price: "Narxlar bilan tanishish uchun ushbu formani to'ldiring",
+        silver:
+          "Silver tarifiga ro'yxatdan o'tish uchun ushbu formani to'ldiring",
+        premium:
+          "Premium tarifiga ro'yxatdan o'tish uchun ushbu formani to'ldiring",
+      },
+      nameLabel: "1. Ismingizni kiriting",
       namePlaceholder: "Ismingiz",
-      phoneLabel: "Telefon",
-      phonePlaceholder: "+998 90 000 00 00",
-      interestLabel: "Qiziqish",
-      interests: [
-        { value: "consultation", label: "Konsultatsiya" },
-        { value: "silver", label: "Silver tarifi" },
-        { value: "premium", label: "Premium tarifi" },
-        { value: "online", label: "Onlayn kurs/to'lov" },
-      ],
-      messageLabel: "Izoh",
-      messagePlaceholder: "Qaysi savol bo'yicha bog'lanish kerak?",
-      submit: "Ariza yuborish",
-      successButton: "Ariza qabul qilindi",
-      success: "Lokal stub arizani qabul qildi. Keyingi bosqichda u Firestore va Telegramga ulanadi.",
-      error: "Ariza yuborilmadi. Ism va telefonni tekshirib qayta urinib ko'ring.",
+      phoneLabel: "2. Telefon raqamingizni kiriting",
+      phonePlaceholder: "90 123 45 67",
+      submit: "Tasdiqlash",
+      sending: "Yuborilmoqda...",
+      successTitle: "Arizangiz qabul qilindi!",
+      successText: "Operatorlarimiz tez orada siz bilan bog'lanadi.",
+      close: "Yopish",
+      consent: "Ma'lumotlaringiz faqat siz bilan bog'lanish uchun ishlatiladi.",
+      errors: {
+        name: "Iltimos, ismingizni to'g'ri kiriting (2-60 ta belgi).",
+        phone: "Telefon raqamini to'liq kiriting (9 ta raqam).",
+        generic: "Xatolik yuz berdi. Iltimos, qayta urinib ko'ring.",
+      },
     },
   },
   ru: {
@@ -423,256 +389,235 @@ export const siteContent: Record<Locale, SiteContent> = {
       ariaLabel: "Основные разделы",
       languageLabel: "Выбор языка",
       links: [
-        { label: "Проблема", href: "#problems" },
-        { label: "Результат", href: "#program" },
-        { label: "Тарифы", href: "#pricing" },
-        { label: "Вопросы", href: "#faq" },
+        { label: "Проблемы", href: "/ru#problems" },
+        { label: "Результаты", href: "/ru#outcomes" },
+        { label: "Тарифы", href: "/ru#tariffs" },
+        { label: "Курсы", href: "/ru/courses" },
+        { label: "Вопросы", href: "/ru#faq" },
       ],
     },
     media: {
-      hero: "https://static.tildacdn.one/tild6631-3939-4437-b338-366332346264/Main_bg1-min.png",
+      hero: heroImage,
       testimonials: testimonialMedia,
     },
     hero: {
-      eyebrow: "Практический курс IN PLUS",
-      title: "За 3 месяца системно освоите бухгалтерию, налоги и 1C",
-      lede:
-        "Разберете реальные задачи по отчетности, налоговым документам и 1C вместе с практикующими специалистами.",
-      primaryCta: "Получить консультацию",
-      secondaryCta: "Посмотреть программу",
+      brandLine: "Уроки бухгалтерии и налогов от опытных специалистов",
+      titleStrong: "Бухгалтер за 3 месяца",
+      titleRest:
+        "— повышайте квалификацию и выходите на доход 20-30 млн в месяц",
+      primaryCta: "Записаться на курс",
       visualAlt: "Основатель курса IN PLUS Замира Джураева",
-      instructor: {
-        name: "Замира Джураева",
-        role: "Налоговый консультант с опытом 20+ лет",
-      },
-      stats: [
-        { value: "3 мес", label: "структурная программа" },
-        { value: "20+", label: "лет практического опыта" },
-        { value: "6000+", label: "бухгалтеров доверили обучение" },
-        { value: "40", label: "мест в потоке" },
-      ],
     },
-    problem: {
-      eyebrow: "Точка старта",
-      title: "Где вы останавливаетесь в отчетности, налогах или 1C?",
-      text:
-        "Раздел помогает быстро узнать свою ситуацию и понять, какие задачи курс закрывает.",
+    problems: {
+      title:
+        "Сталкиваетесь с трудностями при сдаче отчетности, работе с налоговыми документами или в программе 1C?",
       items: [
         {
-          title: "Ошибки в финансовой отчетности",
-          text: "Небольшая неточность может привести к штрафам и повторной сдаче.",
+          title: "Ошибки при сдаче",
+          text: "финансовой отчетности",
+          highlighted: true,
         },
         {
-          title: "Ответы на письма налоговой",
-          text: "Без понятного основания и сроков процесс затягивается.",
+          title: "Не знаете, как ответить",
+          text: "на письмо из налоговой",
         },
         {
-          title: "Сложности с 1C, экспортом и ТМЗ",
-          text: "Без практических настроек ежедневная работа становится медленной.",
+          title: "Трудности в 1C",
+          text: "с производством, экспортом или ТМЗ",
         },
         {
-          title: "Неуверенность при закрытии периода",
-          text: "Нужен понятный порядок по балансу, прибыли и ежемесячным отчетам.",
+          title: "Неуверенность",
+          text: "при закрытии отчетности",
         },
       ],
     },
-    risks: {
-      eyebrow: "Цена откладывания",
-      title: "Что будет, если не закрыть эти проблемы заранее?",
-      text:
-        "Курс нужен не для накопления теории, а для снижения рабочих рисков.",
-      cta: "Навести порядок в задачах",
+    consequences: {
+      title:
+        "Задумывались ли вы, к каким последствиям приводит нерешенность ваших проблем?",
+      cta: "Избавиться от проблем",
       items: [
         {
-          title: "Ошибка в отчете приводит к штрафам",
-          text: "Один неверно закрытый период влияет на следующие месяцы.",
+          label: "ПРОБЛЕМА 1",
+          lead: "Каждый отчет с ошибкой",
+          text: "оборачивается миллионными штрафами",
         },
         {
-          title: "Налоговые льготы остаются неиспользованными",
-          text: "Неиспользованные законные возможности превращаются в лишние расходы.",
+          label: "ПРОБЛЕМА 2",
+          lead: "Невозможность использовать",
+          text: "законные льготы",
         },
         {
-          title: "Законы меняются быстро",
-          text: "Одно неверное решение может нанести компании серьезный ущерб.",
+          label: "ПРОБЛЕМА 3",
+          lead: "Незнание ежегодно меняющихся законов:",
+          text: "одно неверное решение приносит компании миллионные убытки",
         },
       ],
     },
-    method: {
-      eyebrow: "Модель решения",
-      title: "Проблема не в вас, а в отсутствии системной практики",
-      text:
-        "Программа соединяет закон, 1C, документы, кейсы и сопровождение в один процесс.",
+    solution: {
+      title: "Так как же избавиться от этих проблем?",
+      subtitle:
+        "Проблема не в вас — вам просто не хватает наставников-практиков и знаний для стратегического подхода.",
+      cta: "Начать обучение на курсе",
       items: [
-        {
-          title: "Практикующие преподаватели",
-          text: "Опыт специалистов, которые ежедневно работают с налогами и учетом.",
-        },
-        {
-          title: "Работа с законодательством",
-          text: "Не заучивание правил, а применение их в реальных ситуациях.",
-        },
-        {
-          title: "Профессиональная работа в 1C",
-          text: "Документы, отчеты и производственные процессы на практических примерах.",
-        },
-        {
-          title: "Ментор и закрытая группа",
-          text: "Поддержка, чтобы не оставаться один на один с вопросами.",
-        },
+        "Учитесь у налоговых консультантов с опытом более 20 лет",
+        "Научитесь правильно понимать законы и использовать их в свою пользу!",
+        "На практических примерах увидите, как правильно закрывать отчеты и профессионально работать в 1C!",
+        "Получите наставника, колл-центр и закрытые группы, которые упростят процесс",
       ],
     },
     outcomes: {
-      eyebrow: "Результат курса",
-      title: "Что вы сможете делать после курса?",
-      text:
-        "Результаты собраны вокруг рабочих задач, а не абстрактного списка тем.",
+      eyebrow: "Результаты",
+      title: "Чего вы достигнете на этом курсе?",
+      cta: "Начать бесплатное участие в курсе",
       items: [
-        "Использовать налоговые льготы",
-        "Вести производство, экспорт и строительство в 1C",
-        "Закрывать баланс и отчет о прибыли каждый месяц",
-        "Отвечать на письма налоговой с законным основанием",
-        "Готовиться к аудиту и проверкам",
-        "Возвращать излишне уплаченные налоги",
-        "Приводить документы в порядок до проверок",
-        "Вести учет компаний разных типов",
+        "Использование налоговых льгот",
+        "Ведение производства, экспорта и строительства в 1C",
+        "Ежемесячное закрытие баланса и отчета о прибыли",
+        "Ответы на письма налоговой с законным обоснованием",
+        "Защита в суде и готовность к аудиторским проверкам",
+        "Возврат переплаченных налогов",
+        "Подготовка документов перед проверками",
+        "Знание ведения бухгалтерии для любых типов компаний",
       ],
     },
-    format: {
-      eyebrow: "Формат программы",
-      title: "Как организован курс?",
-      text: "Разрозненные факты с текущей страницы собраны в один ясный блок.",
-      items: [
+    founder: {
+      eyebrow: "Основатель курса",
+      name: "Замира Джураева",
+      role: "Налоговый консультант с опытом более 20 лет",
+      facts: [
+        "200+ видеоуроков + 6 месяцев повторного просмотра",
+        "Каждый урок на основе практических заданий и реальных кейсов",
+        "Удобное время: адаптировано для работающих",
+        "Занятия офлайн / через Zoom",
+        "1 раз в неделю занятие по 3 часа",
         "Курс длится 3 месяца",
-        "1 занятие в неделю по 3 часа",
-        "Офлайн или Zoom формат",
-        "Удобное время для работающих",
-        "200+ видеоуроков и 6 месяцев повторного просмотра",
-        "Практические задания и реальные кейсы на каждом уроке",
-        "Основатель курса - Замира Джураева",
-        "Занятия ведут практикующие специалисты",
+        "Занятия ведут практикующие специалисты из международных организаций",
       ],
     },
     trust: {
       eyebrow: "Социальное доказательство",
-      title: "6000+ бухгалтеров доверили обучение IN PLUS",
-      text:
-        "Видеоотзывы вынесены в отдельную галерею и не ломают ритм страницы.",
+      title: "Более 6000 бухгалтеров доверились нам",
+      text: "Ниже вы можете ознакомиться с их отзывами!",
     },
-    bonus: {
-      eyebrow: "Дополнительные материалы",
-      title: "Бонусы",
-      text:
-        "Бонусы показаны как практические материалы, которые пригодятся после занятия.",
+    bonuses: {
+      eyebrow: "Бонусы",
+      title: "Специальные бонусы для записавшихся",
+      note: "только если зарегистрируетесь в течение 9 минут",
       items: [
-        'Урок "Glavbux: увеличить доход в 5 раз"',
+        "Чек-листы по заполнению отчетности",
+        "Пособие по проводкам, ОСВ и балансу",
         "Шаблоны для поиска и применения законодательства",
-        "Урок по проводкам, ОСВ и балансу",
-        "Чек-листы по заполнению отчетов",
+        "Пособие «Главбух: увеличить доход в 5 раз»",
       ],
     },
-    cohort: {
-      eyebrow: "Размер группы",
-      title: "Количество мест ограничено",
-      text: "Размер группы контролируется, чтобы ученики могли дойти до результата.",
-      number: "40",
-    },
-    pricing: {
-      eyebrow: "Тарифы",
-      title: "Тарифы курса",
+    scarcity: {
+      title: "Внимание! Количество мест ограничено!",
       text:
-        "Цены пока выдаются через заявку. Онлайн-оплата подключится после выбора провайдера.",
-      plans: [
+        "Чтобы наши ученики достигали результата, мы набираем на курс только 40 бухгалтеров",
+    },
+    tariffs: {
+      eyebrow: "Тарифы курса",
+      title: "Тарифы курса",
+      text: "Выберите подходящий тариф и оставьте заявку, чтобы узнать цены.",
+      note: "Оставьте заявку, чтобы узнать цены!",
+      items: [
         {
-          name: "Silver",
-          kicker: "Основной формат",
-          items: [
-            "3 месяца, 1 занятие в неделю по 3 часа",
+          id: "silver",
+          name: "SILVER",
+          tagline: "Базовый тариф",
+          features: [
+            "200+ видеоуроков и 6 месяцев повторного доступа",
+            "Практические задания, кейсы и реальные отчеты",
+            "Занятия 3 часа раз в неделю в течение 3 месяцев (офлайн/Zoom)",
             "Раздаточные материалы",
-            "Консультации через колл-центр и ментора",
           ],
-          note: "Оставьте заявку, чтобы узнать цену.",
-          cta: "Узнать цену",
+          cta: "Выбрать тариф Silver",
         },
         {
-          name: "Premium",
-          kicker: "Расширенный формат",
-          featured: true,
-          items: [
-            "3 месяца, 1 занятие в неделю по 3 часа",
-            "200+ видеоуроков и 6 месяцев просмотра",
-            "Консультации через колл-центр и ментора",
-            "Закрытая Telegram-группа",
-            "Практические задания, кейсы и реальные отчеты",
-            "Все бонусные материалы",
+          id: "premium",
+          name: "PREMIUM",
+          tagline: "Полный тариф",
+          features: [
+            "Все возможности тарифа SILVER",
+            "Чек-листы по заполнению отчетности",
+            "Пособие по проводкам, ОСВ, балансу и шаблоны",
+            "Пособие «Главбух» и закрытая группа в Telegram",
+            "Поддержка колл-центра и ментора",
           ],
-          note: "Онлайн-оплата будет подключена после выбора провайдера.",
-          cta: "Заявка на Premium",
+          cta: "Выбрать тариф Premium",
+          highlighted: true,
         },
       ],
     },
     notFor: {
-      eyebrow: "Проверка соответствия",
-      title: "Для кого этот курс не подходит?",
-      text:
-        "Раздел снижает неверные ожидания и показывает, что результат требует участия.",
+      eyebrow: "Внимание",
+      title: "Кому этот курс не подходит?",
+      subtitle: "Если наоборот — этот курс именно для вас!",
       items: [
-        "Для тех, кто не посещает занятия",
-        "Для тех, кто не выполняет практические задания",
-        "Для тех, кто боится брать ответственность главного бухгалтера",
+        "Тем, кто боится брать ответственность главного бухгалтера",
+        "Тем, кто не выполняет практические задания",
+        "Тем, кто не посещает занятия",
       ],
     },
     faq: {
       eyebrow: "Ясность",
       title: "Частые вопросы",
-      text:
-        "Вопросы сфокусированы на том, что влияет на решение пользователя.",
       items: [
         {
           question: "Где проходят занятия?",
           answer:
-            "Занятия проходят через Zoom и офлайн. Формат можно выбрать по удобству.",
+            "Занятия проходят офлайн и онлайн через Zoom. Вы можете выбрать удобный для себя формат.",
         },
         {
           question: "Какая есть гарантия?",
           answer:
-            "Курс построен на практике, менторстве и реальных кейсах. Результат зависит от посещения и выполнения заданий.",
+            "Если вы выполняете практические задания и посещаете занятия — вы достигнете результата. Все материалы остаются у вас на 6 месяцев.",
         },
         {
           question: "Записываются ли занятия?",
           answer:
-            "В Premium формате предусмотрены видеоуроки и повторный просмотр.",
+            "Да, все занятия записываются, и вы можете пересматривать их в течение 6 месяцев.",
         },
         {
-          question: "Можно участвовать, если я не знаю 1C?",
+          question: "Смогу ли я участвовать, если не знаю 1C?",
           answer:
-            "Да, но ваш стартовый уровень лучше уточнить на консультации.",
+            "Да, курс начинается с нуля. Даже не зная 1C, вы освоите программу шаг за шагом на практических примерах.",
         },
       ],
     },
-    form: {
-      eyebrow: "Одна заявка",
-      title: "Получите консультацию по курсу",
-      text:
-        "Все CTA ведут к этой форме. Сейчас подключен локальный stub, который потом заменится на Firebase и Telegram.",
-      integrationNote:
-        "Firebase, Telegram и платежный провайдер подключаются после готовности проектных аккаунтов.",
-      nameLabel: "Имя",
+    catalogTeaser: {
+      eyebrow: "Курсы",
+      title: "Все курсы IN PLUS",
+      text: "Посмотрите полный каталог курсов по бухгалтерии, налогам, 1C и бизнес-практике.",
+    },
+    ctas: {
+      enroll: "Записаться на курс",
+      knowPrice: "Узнать цену",
+      join: "Хочу на курс",
+      viewCourses: "Все курсы",
+    },
+    leadForm: {
+      titles: {
+        course: "Заполните форму для записи на курс",
+        price: "Заполните форму, чтобы узнать цены",
+        silver: "Заполните форму для записи на тариф Silver",
+        premium: "Заполните форму для записи на тариф Premium",
+      },
+      nameLabel: "1. Введите ваше имя",
       namePlaceholder: "Ваше имя",
-      phoneLabel: "Телефон",
-      phonePlaceholder: "+998 90 000 00 00",
-      interestLabel: "Интерес",
-      interests: [
-        { value: "consultation", label: "Консультация" },
-        { value: "silver", label: "Тариф Silver" },
-        { value: "premium", label: "Тариф Premium" },
-        { value: "online", label: "Онлайн-курс/оплата" },
-      ],
-      messageLabel: "Комментарий",
-      messagePlaceholder: "По какому вопросу связаться?",
-      submit: "Отправить заявку",
-      successButton: "Заявка принята",
-      success: "Локальный stub принял заявку. На следующем этапе он будет подключен к Firestore и Telegram.",
-      error: "Заявка не отправилась. Проверьте имя и телефон и попробуйте еще раз.",
+      phoneLabel: "2. Введите номер телефона",
+      phonePlaceholder: "90 123 45 67",
+      submit: "Подтвердить",
+      sending: "Отправка...",
+      successTitle: "Заявка принята!",
+      successText: "Наши операторы свяжутся с вами в ближайшее время.",
+      close: "Закрыть",
+      consent: "Ваши данные используются только для связи с вами.",
+      errors: {
+        name: "Пожалуйста, введите корректное имя (2-60 символов).",
+        phone: "Введите номер телефона полностью (9 цифр).",
+        generic: "Произошла ошибка. Пожалуйста, попробуйте еще раз.",
+      },
     },
   },
 };

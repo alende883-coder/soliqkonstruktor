@@ -2,390 +2,423 @@ import Image from "next/image";
 import Link from "next/link";
 import {
   ArrowRight,
-  BadgeCheck,
-  BookOpenCheck,
-  CalendarDays,
+  Banknote,
+  BadgePercent,
   CheckCircle2,
-  ClipboardCheck,
-  FileQuestion,
+  Clock,
+  FileText,
+  Flame,
+  Gift,
   GraduationCap,
   Headphones,
-  Languages,
-  Layers3,
-  LockKeyhole,
-  Play,
-  ShieldAlert,
-  Sparkles,
-  Target,
+  Laptop,
+  Scale,
+  Send,
+  Star,
+  XCircle,
 } from "lucide-react";
-import { LeadForm } from "@/components/lead-form";
+import { LeadCta } from "@/components/lead-cta";
+import { LeadFormProvider } from "@/components/lead-form-provider";
+import { SiteHeader } from "@/components/site-header";
 import type { SiteContent } from "@/lib/site-content";
+import { shorts } from "@/lib/shorts";
+import { coursePageContent, getFeaturedCourses } from "@/lib/courses";
 
-const sectionIcons = [
-  ClipboardCheck,
-  FileQuestion,
-  Layers3,
-  Headphones,
-  ShieldAlert,
-  BookOpenCheck,
-  Target,
-  GraduationCap,
-];
+// TODO: replace with the client's real Telegram channel / bot link when provided.
+const TELEGRAM_URL = "https://t.me/";
 
 export function LandingPage({ content }: { content: SiteContent }) {
   return (
-    <main>
-      <Header content={content} />
-      <Hero content={content} />
-      <ProblemCheck content={content} />
-      <RiskSection content={content} />
-      <MethodSection content={content} />
-      <OutcomesSection content={content} />
-      <FormatSection content={content} />
-      <TrustSection content={content} />
-      <BonusSection content={content} />
-      <CohortSection content={content} />
-      <PricingSection content={content} />
-      <NotForSection content={content} />
-      <FaqSection content={content} />
-      <ContactSection content={content} />
-    </main>
+    <LeadFormProvider content={content}>
+      <SiteHeader content={content} activePage="home" />
+      <main>
+        <Hero content={content} />
+        <Problems content={content} />
+        <Consequences content={content} />
+        <Solution content={content} />
+        <CoursesTeaser content={content} />
+        <Outcomes content={content} />
+        <Founder content={content} />
+        <Trust content={content} />
+        <Bonuses content={content} />
+        <Scarcity content={content} />
+        <Tariffs content={content} />
+        <NotFor content={content} />
+        <Faq content={content} />
+      </main>
+    </LeadFormProvider>
   );
 }
 
-function Header({ content }: { content: SiteContent }) {
+function TelegramButton() {
   return (
-    <header className="site-header">
-      <a className="brand" href="#top" aria-label="IN PLUS">
-        <span className="brand-mark">IP</span>
-        <span>
-          <strong>IN PLUS</strong>
-          <small>Soliq Konstruktor</small>
-        </span>
-      </a>
-      <nav aria-label={content.navigation.ariaLabel}>
-        {content.navigation.links.map((link) => (
-          <a key={link.href} href={link.href}>
-            {link.label}
-          </a>
-        ))}
-      </nav>
-      <div className="language-switch" aria-label={content.navigation.languageLabel}>
-        <Languages aria-hidden="true" size={16} />
-        <Link className={content.locale === "uz" ? "active" : ""} href="/">
-          UZ
-        </Link>
-        <Link className={content.locale === "ru" ? "active" : ""} href="/ru">
-          RU
-        </Link>
-      </div>
-    </header>
+    <a
+      className="tg-button"
+      href={TELEGRAM_URL}
+      target="_blank"
+      rel="noreferrer"
+      aria-label="Telegram"
+    >
+      <Send aria-hidden="true" />
+    </a>
   );
 }
 
 function Hero({ content }: { content: SiteContent }) {
+  const { hero, media } = content;
+
   return (
     <section className="hero-section section-shell" id="top">
       <div className="hero-copy">
-        <p className="eyebrow">{content.hero.eyebrow}</p>
-        <h1>{content.hero.title}</h1>
-        <p className="hero-lede">{content.hero.lede}</p>
-        <div className="hero-actions">
-          <a className="primary-button" href="#consultation">
-            <ArrowRight aria-hidden="true" className="button-icon" />
-            <span>{content.hero.primaryCta}</span>
-          </a>
-          <a className="secondary-button" href="#program">
-            <BookOpenCheck aria-hidden="true" className="button-icon" />
-            <span>{content.hero.secondaryCta}</span>
-          </a>
+        <div className="hero-brand">
+          <Image
+            className="hero-logo"
+            src="/logo.png"
+            alt="IN PLUS"
+            width={56}
+            height={56}
+            unoptimized
+            priority
+          />
         </div>
-        <dl className="stat-row">
-          {content.hero.stats.map((stat) => (
-            <div key={stat.label}>
-              <dt>{stat.value}</dt>
-              <dd>{stat.label}</dd>
-            </div>
-          ))}
-        </dl>
+        <p className="hero-brandline">{hero.brandLine}</p>
+        <h1>
+          <strong>{hero.titleStrong}</strong> {hero.titleRest}
+        </h1>
+        <div className="cta-row">
+          <LeadCta source="course" label={hero.primaryCta} className="btn-lg" />
+          <TelegramButton />
+        </div>
       </div>
-      <div className="hero-visual" aria-label={content.hero.visualAlt}>
+      <div className="hero-visual" aria-label={hero.visualAlt}>
         <div className="image-frame">
           <Image
-            src={content.media.hero}
-            alt={content.hero.visualAlt}
+            src={media.hero}
+            alt={hero.visualAlt}
             fill
             priority
             sizes="(max-width: 900px) 100vw, 44vw"
             unoptimized
           />
         </div>
-        <div className="instructor-note">
-          <BadgeCheck aria-hidden="true" size={22} />
-          <div>
-            <strong>{content.hero.instructor.name}</strong>
-            <span>{content.hero.instructor.role}</span>
-          </div>
+      </div>
+    </section>
+  );
+}
+
+function Problems({ content }: { content: SiteContent }) {
+  return (
+    <section className="problems" id="problems">
+      <div className="section-shell">
+        <SectionIntro title={content.problems.title} />
+        <div className="problem-grid">
+          {content.problems.items.map((item) => (
+            <article
+              className={item.highlighted ? "problem-card highlighted" : "problem-card"}
+              key={item.title}
+            >
+              <span className="problem-icon">
+                <Star aria-hidden="true" />
+              </span>
+              <h3>{item.title}</h3>
+              <p>{item.text}</p>
+            </article>
+          ))}
         </div>
       </div>
     </section>
   );
 }
 
-function ProblemCheck({ content }: { content: SiteContent }) {
+const consequenceIcons = [Banknote, BadgePercent, Scale];
+
+function Consequences({ content }: { content: SiteContent }) {
   return (
-    <section className="light-band" id="problems">
+    <section className="consequences" id="consequences">
       <div className="section-shell">
-        <SectionIntro eyebrow={content.problem.eyebrow} title={content.problem.title} text={content.problem.text} />
-        <div className="problem-grid">
-          {content.problem.items.map((item, index) => {
-            const Icon = sectionIcons[index % sectionIcons.length];
+        <SectionIntro title={content.consequences.title} />
+        <div className="consequence-grid">
+          {content.consequences.items.map((item, index) => {
+            const Icon = consequenceIcons[index % consequenceIcons.length];
+
             return (
-              <article className={index === 0 ? "problem-card accent-red" : "problem-card"} key={item.title}>
-                <Icon aria-hidden="true" />
-                <h3>{item.title}</h3>
-                <p>{item.text}</p>
+              <article className="consequence-card" key={item.label}>
+                <div className="consequence-top">
+                  <span className="soft-icon">
+                    <Icon aria-hidden="true" />
+                  </span>
+                  <span className="tag">{item.label}</span>
+                </div>
+                <p>
+                  <strong>{item.lead}</strong> {item.text}
+                </p>
               </article>
             );
           })}
         </div>
+        <div className="cta-row cta-center">
+          <LeadCta source="course" label={content.consequences.cta} className="btn-lg" />
+          <TelegramButton />
+        </div>
       </div>
     </section>
   );
 }
 
-function RiskSection({ content }: { content: SiteContent }) {
+const solutionIcons = [GraduationCap, FileText, Laptop, Headphones];
+
+function Solution({ content }: { content: SiteContent }) {
   return (
-    <section className="dark-band">
+    <section className="solution" id="solution">
       <div className="section-shell">
         <SectionIntro
-          eyebrow={content.risks.eyebrow}
-          title={content.risks.title}
-          text={content.risks.text}
-          inverted
+          title={content.solution.title}
+          text={content.solution.subtitle}
         />
-        <div className="risk-grid">
-          {content.risks.items.map((risk, index) => (
-            <article className="risk-card" key={risk.title}>
-              <span>{String(index + 1).padStart(2, "0")}</span>
-              <h3>{risk.title}</h3>
-              <p>{risk.text}</p>
-            </article>
-          ))}
-        </div>
-        <a className="primary-button dark-cta" href="#consultation">
-          <ArrowRight aria-hidden="true" className="button-icon" />
-          <span>{content.risks.cta}</span>
-        </a>
-      </div>
-    </section>
-  );
-}
+        <div className="solution-grid">
+          {content.solution.items.map((item, index) => {
+            const Icon = solutionIcons[index % solutionIcons.length];
 
-function MethodSection({ content }: { content: SiteContent }) {
-  return (
-    <section className="section-shell">
-      <div className="method-layout">
-        <div>
-          <p className="eyebrow">{content.method.eyebrow}</p>
-          <h2>{content.method.title}</h2>
-          <p>{content.method.text}</p>
-        </div>
-        <div className="method-steps">
-          {content.method.items.map((item, index) => (
-            <article key={item.title}>
-              <span>{String(index + 1).padStart(2, "0")}</span>
-              <div>
-                <h3>{item.title}</h3>
-                <p>{item.text}</p>
-              </div>
-            </article>
-          ))}
-        </div>
-      </div>
-    </section>
-  );
-}
-
-function OutcomesSection({ content }: { content: SiteContent }) {
-  return (
-    <section className="blue-band" id="program">
-      <div className="section-shell">
-        <SectionIntro
-          eyebrow={content.outcomes.eyebrow}
-          title={content.outcomes.title}
-          text={content.outcomes.text}
-          inverted
-        />
-        <div className="outcome-grid">
-          {content.outcomes.items.map((item, index) => (
-            <article className="outcome-card" key={item}>
-              <span>{String(index + 1).padStart(2, "0")}</span>
-              <p>{item}</p>
-            </article>
-          ))}
-        </div>
-      </div>
-    </section>
-  );
-}
-
-function FormatSection({ content }: { content: SiteContent }) {
-  return (
-    <section className="section-shell">
-      <div className="format-panel">
-        <SectionIntro
-          eyebrow={content.format.eyebrow}
-          title={content.format.title}
-          text={content.format.text}
-        />
-        <div className="format-grid">
-          {content.format.items.map((item, index) => {
-            const Icon = index < 4 ? CalendarDays : CheckCircle2;
             return (
-              <article key={item}>
-                <Icon aria-hidden="true" />
-                <span>{String(index + 1).padStart(2, "0")}</span>
+              <article className="solution-card" key={item}>
+                <span className="solution-visual">
+                  <Icon aria-hidden="true" />
+                </span>
                 <p>{item}</p>
               </article>
             );
           })}
         </div>
+        <div className="cta-row cta-center">
+          <LeadCta source="course" label={content.solution.cta} className="btn-lg" />
+          <TelegramButton />
+        </div>
       </div>
     </section>
   );
 }
 
-function TrustSection({ content }: { content: SiteContent }) {
+function CoursesTeaser({ content }: { content: SiteContent }) {
+  const featured = getFeaturedCourses(content.locale);
+  const labels = coursePageContent[content.locale];
+  const coursesHref = content.locale === "ru" ? "/ru/courses" : "/courses";
+
   return (
-    <section className="light-band" id="reviews">
+    <section className="catalog-teaser" id="catalog">
       <div className="section-shell">
         <SectionIntro
-          eyebrow={content.trust.eyebrow}
-          title={content.trust.title}
-          text={content.trust.text}
+          eyebrow={content.catalogTeaser.eyebrow}
+          title={content.catalogTeaser.title}
+          text={content.catalogTeaser.text}
         />
-        <div className="testimonial-strip">
-          {content.media.testimonials.map((item, index) => (
-            <article className="testimonial-card" key={item.src}>
-              <Image
-                src={item.src}
-                alt={item.alt}
-                width={260}
-                height={420}
-                sizes="(max-width: 720px) 44vw, 18vw"
-                unoptimized
-              />
-              <span aria-hidden="true">
-                <Play size={22} fill="currentColor" />
+        <div className="teaser-grid">
+          {featured.map((course) => (
+            <Link className="teaser-card" href={coursesHref} key={course.id}>
+              <span className="course-category">
+                {labels.categories[course.category]}
               </span>
-              <small>{String(index + 1).padStart(2, "0")}</small>
-            </article>
+              <h3>{course.title}</h3>
+              <p>{course.description}</p>
+              {course.priceLabel ? <small>{course.priceLabel}</small> : null}
+            </Link>
           ))}
         </div>
-      </div>
-    </section>
-  );
-}
-
-function BonusSection({ content }: { content: SiteContent }) {
-  return (
-    <section className="bonus-band" id="bonuses">
-      <div className="section-shell bonus-layout">
-        <div>
-          <p className="eyebrow">{content.bonus.eyebrow}</p>
-          <h2>{content.bonus.title}</h2>
-          <p>{content.bonus.text}</p>
+        <div className="cta-row cta-center">
+          <Link className="primary-button btn-lg" href={coursesHref}>
+            <span>{content.ctas.viewCourses}</span>
+            <ArrowRight aria-hidden="true" className="button-icon" />
+          </Link>
         </div>
-        <ul>
-          {content.bonus.items.map((item) => (
-            <li key={item}>
-              <Sparkles aria-hidden="true" />
-              <span>{item}</span>
-            </li>
-          ))}
-        </ul>
       </div>
     </section>
   );
 }
 
-function CohortSection({ content }: { content: SiteContent }) {
+function Outcomes({ content }: { content: SiteContent }) {
   return (
-    <section className="section-shell">
-      <div className="cohort-panel">
-        <div>
-          <p className="eyebrow">{content.cohort.eyebrow}</p>
-          <h2>{content.cohort.title}</h2>
-          <p>{content.cohort.text}</p>
-        </div>
-        <strong>{content.cohort.number}</strong>
-      </div>
-    </section>
-  );
-}
-
-function PricingSection({ content }: { content: SiteContent }) {
-  return (
-    <section className="dark-band" id="pricing">
+    <section className="outcomes" id="outcomes">
       <div className="section-shell">
-        <SectionIntro
-          eyebrow={content.pricing.eyebrow}
-          title={content.pricing.title}
-          text={content.pricing.text}
-          inverted
-        />
-        <div className="pricing-grid">
-          {content.pricing.plans.map((plan) => (
-            <article className={plan.featured ? "price-card featured" : "price-card"} key={plan.name}>
-              <span className="plan-kicker">{plan.kicker}</span>
-              <h3>{plan.name}</h3>
-              <ul>
-                {plan.items.map((item) => (
-                  <li key={item}>
-                    <CheckCircle2 aria-hidden="true" />
-                    <span>{item}</span>
-                  </li>
-                ))}
-              </ul>
-              <p>{plan.note}</p>
-              <a className={plan.featured ? "primary-button" : "secondary-button"} href="#consultation">
-                <ArrowRight aria-hidden="true" className="button-icon" />
-                <span>{plan.cta}</span>
-              </a>
+        <SectionIntro eyebrow={content.outcomes.eyebrow} title={content.outcomes.title} />
+        <div className="outcome-grid">
+          {content.outcomes.items.map((item, index) => (
+            <article className="outcome-card" key={item}>
+              <span className="outcome-num">{String(index + 1).padStart(2, "0")}</span>
+              <p>{item}</p>
             </article>
           ))}
+        </div>
+        <div className="cta-row cta-center">
+          <LeadCta source="course" label={content.outcomes.cta} className="btn-lg" />
+          <TelegramButton />
         </div>
       </div>
     </section>
   );
 }
 
-function NotForSection({ content }: { content: SiteContent }) {
+function Founder({ content }: { content: SiteContent }) {
+  const { founder, media } = content;
+
   return (
-    <section className="section-shell">
+    <section className="founder" id="founder">
+      <div className="section-shell founder-shell">
+        <div className="image-frame founder-photo">
+          <Image
+            src={media.hero}
+            alt={founder.name}
+            fill
+            sizes="(max-width: 900px) 100vw, 40vw"
+            unoptimized
+          />
+        </div>
+        <div className="founder-info">
+          <p className="eyebrow">{founder.eyebrow}</p>
+          <h2>{founder.name}</h2>
+          <p className="founder-role">{founder.role}</p>
+          <ul className="founder-facts">
+            {founder.facts.map((fact) => (
+              <li key={fact}>
+                <CheckCircle2 aria-hidden="true" />
+                <span>{fact}</span>
+              </li>
+            ))}
+          </ul>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function Trust({ content }: { content: SiteContent }) {
+  return (
+    <section className="section-shell" id="reviews">
       <SectionIntro
-        eyebrow={content.notFor.eyebrow}
-        title={content.notFor.title}
-        text={content.notFor.text}
+        eyebrow={content.trust.eyebrow}
+        title={content.trust.title}
+        text={content.trust.text}
       />
-      <div className="not-for-grid">
-        {content.notFor.items.map((item, index) => (
-          <article key={item}>
-            <span>{String(index + 1).padStart(2, "0")}</span>
-            <p>{item}</p>
-          </article>
+      <div className="shorts-strip">
+        {shorts.map((short) => (
+          <div className="short-card" key={short.id}>
+            <iframe
+              src={`https://www.youtube-nocookie.com/embed/${short.youtubeId}`}
+              title={short.title}
+              loading="lazy"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+              allowFullScreen
+              referrerPolicy="strict-origin-when-cross-origin"
+            />
+          </div>
         ))}
       </div>
     </section>
   );
 }
 
-function FaqSection({ content }: { content: SiteContent }) {
+function Bonuses({ content }: { content: SiteContent }) {
   return (
-    <section className="light-band" id="faq">
+    <section className="bonuses" id="bonuses">
+      <div className="section-shell">
+        <SectionIntro eyebrow={content.bonuses.eyebrow} title={content.bonuses.title} />
+        <div className="bonus-note">
+          <Clock aria-hidden="true" />
+          <span>{content.bonuses.note}</span>
+        </div>
+        <div className="bonus-grid">
+          {content.bonuses.items.map((item) => (
+            <article className="bonus-card" key={item}>
+              <Gift aria-hidden="true" />
+              <span>{item}</span>
+            </article>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function Scarcity({ content }: { content: SiteContent }) {
+  return (
+    <section id="scarcity">
+      <div className="section-shell">
+        <div className="scarcity">
+          <Flame aria-hidden="true" />
+          <h2>{content.scarcity.title}</h2>
+          <p>{content.scarcity.text}</p>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function Tariffs({ content }: { content: SiteContent }) {
+  return (
+    <section className="tariffs" id="tariffs">
+      <div className="section-shell">
+        <SectionIntro
+          eyebrow={content.tariffs.eyebrow}
+          title={content.tariffs.title}
+          text={content.tariffs.text}
+        />
+        <div className="tariffs-grid">
+          {content.tariffs.items.map((tariff) => (
+            <article
+              className={tariff.highlighted ? "tariff-card highlighted" : "tariff-card"}
+              key={tariff.id}
+            >
+              <div className="tariff-head">
+                <span className="tariff-badge">{tariff.tagline}</span>
+                <span className="tariff-name">{tariff.name}</span>
+              </div>
+              <ul className="tariff-features">
+                {tariff.features.map((feature) => (
+                  <li key={feature}>
+                    <CheckCircle2 aria-hidden="true" />
+                    <span>{feature}</span>
+                  </li>
+                ))}
+              </ul>
+              <LeadCta
+                source={tariff.id}
+                label={tariff.cta}
+                variant={tariff.highlighted ? "primary" : "secondary"}
+              />
+            </article>
+          ))}
+        </div>
+        <p className="tariffs-note">{content.tariffs.note}</p>
+      </div>
+    </section>
+  );
+}
+
+function NotFor({ content }: { content: SiteContent }) {
+  return (
+    <section className="notfor" id="notfor">
+      <div className="section-shell">
+        <SectionIntro
+          eyebrow={content.notFor.eyebrow}
+          title={content.notFor.title}
+          text={content.notFor.subtitle}
+        />
+        <div className="notfor-grid">
+          {content.notFor.items.map((item) => (
+            <article className="notfor-card" key={item}>
+              <XCircle aria-hidden="true" />
+              <span>{item}</span>
+            </article>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function Faq({ content }: { content: SiteContent }) {
+  return (
+    <section className="faq" id="faq">
       <div className="section-shell faq-shell">
-        <SectionIntro eyebrow={content.faq.eyebrow} title={content.faq.title} text={content.faq.text} />
+        <SectionIntro eyebrow={content.faq.eyebrow} title={content.faq.title} />
         <div className="faq-list">
           {content.faq.items.map((item, index) => (
             <details key={item.question} open={index === 0}>
@@ -401,39 +434,20 @@ function FaqSection({ content }: { content: SiteContent }) {
   );
 }
 
-function ContactSection({ content }: { content: SiteContent }) {
-  return (
-    <section className="section-shell contact-section" id="consultation">
-      <div className="contact-copy">
-        <p className="eyebrow">{content.form.eyebrow}</p>
-        <h2>{content.form.title}</h2>
-        <p>{content.form.text}</p>
-        <div className="integration-note">
-          <LockKeyhole aria-hidden="true" />
-          <span>{content.form.integrationNote}</span>
-        </div>
-      </div>
-      <LeadForm content={content.form} locale={content.locale} />
-    </section>
-  );
-}
-
 function SectionIntro({
   eyebrow,
   title,
   text,
-  inverted = false,
 }: {
-  eyebrow: string;
+  eyebrow?: string;
   title: string;
-  text: string;
-  inverted?: boolean;
+  text?: string;
 }) {
   return (
-    <div className={inverted ? "section-intro inverted" : "section-intro"}>
-      <p className="eyebrow">{eyebrow}</p>
+    <div className="section-intro">
+      {eyebrow ? <p className="eyebrow">{eyebrow}</p> : null}
       <h2>{title}</h2>
-      <p>{text}</p>
+      {text ? <p>{text}</p> : null}
     </div>
   );
 }

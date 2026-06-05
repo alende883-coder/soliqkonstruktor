@@ -1101,10 +1101,10 @@ strong {
 }
 
 .course-card {
-  display: flex;
-  flex-direction: column;
+  display: grid;
+  grid-row: span 4;
+  grid-template-rows: subgrid;
   gap: 14px;
-  min-height: 340px;
   padding: 22px;
 }
 
@@ -1202,7 +1202,6 @@ strong {
   display: inline-flex;
   min-height: 46px;
   width: 100%;
-  margin-top: auto;
   align-items: center;
   justify-content: center;
   gap: 8px;
@@ -1219,8 +1218,9 @@ strong {
 }
 
 .course-pending {
-  margin-top: auto;
-  padding-top: 6px;
+  display: grid;
+  min-height: 46px;
+  place-items: center;
   color: var(--muted);
   font-size: 0.85rem;
   font-weight: 500;

@@ -22,7 +22,7 @@
   --accent: #ff5a36; /* single warm accent — urgency only */
   --accent-soft: rgba(255, 90, 54, 0.1);
 
-  --dot: rgba(20, 23, 40, 0.06);
+  --dot: rgba(20, 23, 40, 0.1);
   --radius: 16px;
   --radius-sm: 12px;
   --radius-pill: 999px;
@@ -72,7 +72,7 @@ img {
 
 main {
   padding-top: var(--header-offset);
-  overflow: clip;
+  overflow-x: clip;
 }
 
 h1,
@@ -1101,10 +1101,10 @@ strong {
 }
 
 .course-card {
-  display: grid;
-  align-content: start;
-  gap: 16px;
-  min-height: 320px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  min-height: 340px;
   padding: 22px;
 }
 
@@ -1117,9 +1117,9 @@ strong {
 
 .course-icon {
   display: grid;
-  width: 46px;
-  height: 46px;
-  flex: 0 0 46px;
+  width: 44px;
+  height: 44px;
+  flex: 0 0 44px;
   place-items: center;
   border-radius: var(--radius-sm);
   background: var(--primary-soft);
@@ -1127,8 +1127,8 @@ strong {
 }
 
 .course-icon svg {
-  width: 23px;
-  height: 23px;
+  width: 22px;
+  height: 22px;
 }
 
 .course-category {
@@ -1142,40 +1142,60 @@ strong {
 
 .course-card-body {
   display: grid;
-  gap: 10px;
+  gap: 8px;
+}
+
+.course-card-body h2 {
+  font-size: 1.25rem;
+  line-height: 1.28;
+  letter-spacing: -0.01em;
+}
+
+.course-card-body p {
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
 }
 
 .course-meta {
   display: grid;
-  gap: 8px;
-}
-
-.course-meta span {
-  display: grid;
-  grid-template-columns: auto minmax(0, 1fr);
-  gap: 4px 8px;
-  align-items: center;
-  padding-top: 10px;
+  gap: 10px;
+  margin-top: 2px;
+  padding-top: 14px;
   border-top: 1px solid var(--line);
 }
 
-.course-meta svg {
-  grid-row: span 2;
-  width: 20px;
-  height: 20px;
+.course-meta-row {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  gap: 10px;
+  align-items: center;
+}
+
+.course-meta-row > svg {
+  width: 18px;
+  height: 18px;
   color: var(--primary);
 }
 
-.course-meta small {
+.course-meta-row span {
+  display: grid;
+  gap: 2px;
+  min-width: 0;
+}
+
+.course-meta-row small {
   color: var(--muted);
-  font-size: 0.74rem;
+  font-size: 0.7rem;
   font-weight: 600;
+  letter-spacing: 0.06em;
   text-transform: uppercase;
 }
 
-.course-meta strong {
+.course-meta-row strong {
   color: var(--ink);
-  font-size: 0.92rem;
+  font-size: 0.9rem;
 }
 
 .course-link {
@@ -1186,8 +1206,9 @@ strong {
   align-items: center;
   justify-content: center;
   gap: 8px;
-  border: 1px solid rgba(47, 91, 217, 0.28);
+  border: 1px solid var(--primary);
   border-radius: var(--radius-sm);
+  background: var(--primary-soft);
   color: var(--primary);
   font-weight: 600;
 }
@@ -1197,10 +1218,13 @@ strong {
   height: 18px;
 }
 
-.course-link.pending {
-  border-color: var(--line);
+.course-pending {
+  margin-top: auto;
+  padding-top: 6px;
   color: var(--muted);
-  cursor: not-allowed;
+  font-size: 0.85rem;
+  font-weight: 500;
+  text-align: center;
 }
 
 .empty-state {
@@ -1592,5 +1616,98 @@ strong {
 @media (min-width: 768px) {
   .teaser-grid {
     grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+/* ---------------- Footer ---------------- */
+.site-footer {
+  border-top: 1px solid var(--line);
+  background: var(--surface);
+}
+
+.footer-shell {
+  display: grid;
+  gap: 36px;
+  padding-top: 56px;
+  padding-bottom: 36px;
+}
+
+.footer-brand {
+  display: grid;
+  gap: 18px;
+  align-content: start;
+  max-width: 440px;
+}
+
+.footer-logo {
+  display: block;
+  width: auto;
+  height: 64px;
+  border-radius: 8px;
+}
+
+.footer-title {
+  color: var(--ink);
+  font-size: 1.18rem;
+  font-weight: 600;
+  line-height: 1.35;
+}
+
+.footer-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 36px 64px;
+}
+
+.footer-nav,
+.footer-contact {
+  display: grid;
+  gap: 12px;
+  align-content: start;
+}
+
+.footer-nav strong,
+.footer-contact strong {
+  color: var(--ink);
+  font-size: 0.9rem;
+}
+
+.footer-nav a,
+.footer-tg {
+  width: fit-content;
+  color: var(--body);
+  font-size: 0.95rem;
+}
+
+.footer-nav a:hover,
+.footer-tg:hover {
+  color: var(--primary);
+}
+
+.footer-tg {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-weight: 500;
+}
+
+.footer-bottom {
+  border-top: 1px solid var(--line);
+}
+
+.footer-bottom .section-shell {
+  display: flex;
+  justify-content: center;
+  padding-top: 20px;
+  padding-bottom: 28px;
+  color: var(--muted);
+  font-size: 0.85rem;
+}
+
+@media (min-width: 768px) {
+  .footer-shell {
+    grid-template-columns: 1fr auto;
+    align-items: start;
+    gap: 56px;
   }
 }

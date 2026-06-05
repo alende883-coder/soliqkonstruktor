@@ -157,18 +157,22 @@ function CourseCard({
       </div>
       <div className="course-meta">
         {course.releaseLabel && (
-          <span>
+          <div className="course-meta-row">
             <CalendarDays aria-hidden="true" />
-            <small>{labels.release}</small>
-            <strong>{course.releaseLabel}</strong>
-          </span>
+            <span>
+              <small>{labels.release}</small>
+              <strong>{course.releaseLabel}</strong>
+            </span>
+          </div>
         )}
         {course.priceLabel && (
-          <span>
+          <div className="course-meta-row">
             <CircleDollarSign aria-hidden="true" />
-            <small>{labels.price}</small>
-            <strong>{course.priceLabel}</strong>
-          </span>
+            <span>
+              <small>{labels.price}</small>
+              <strong>{course.priceLabel}</strong>
+            </span>
+          </div>
         )}
       </div>
       {course.getCourseUrl ? (
@@ -182,9 +186,7 @@ function CourseCard({
           <ArrowUpRight aria-hidden="true" />
         </a>
       ) : (
-        <button className="course-link pending" type="button" disabled>
-          <span>{labels.pendingLink}</span>
-        </button>
+        <span className="course-pending">{labels.pendingLink}</span>
       )}
     </article>
   );

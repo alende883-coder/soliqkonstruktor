@@ -114,6 +114,12 @@ export type SiteContent = {
     consent: string;
     errors: { name: string; phone: string; generic: string };
   };
+  footer: {
+    tagline: string;
+    navLabel: string;
+    contactLabel: string;
+    rights: string;
+  };
 };
 
 const testimonialMedia = [
@@ -382,6 +388,12 @@ export const siteContent: Record<Locale, SiteContent> = {
         generic: "Xatolik yuz berdi. Iltimos, qayta urinib ko'ring.",
       },
     },
+    footer: {
+      tagline: "Buxgalteriya, soliq va 1C bo'yicha amaliy o'quv markazi.",
+      navLabel: "Sahifalar",
+      contactLabel: "Bog'lanish",
+      rights: "© 2026 IN PLUS MChJ. Barcha huquqlar himoyalangan.",
+    },
   },
   ru: {
     locale: "ru",
@@ -618,6 +630,12 @@ export const siteContent: Record<Locale, SiteContent> = {
         phone: "Введите номер телефона полностью (9 цифр).",
         generic: "Произошла ошибка. Пожалуйста, попробуйте еще раз.",
       },
+    },
+    footer: {
+      tagline: "Практический учебный центр по бухгалтерии, налогам и 1C.",
+      navLabel: "Страницы",
+      contactLabel: "Связаться",
+      rights: "© 2026 IN PLUS MChJ. Все права защищены.",
     },
   },
 };

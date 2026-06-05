@@ -23,9 +23,8 @@ import { SiteHeader } from "@/components/site-header";
 import type { SiteContent } from "@/lib/site-content";
 import { shorts } from "@/lib/shorts";
 import { coursePageContent, getFeaturedCourses } from "@/lib/courses";
-
-// TODO: replace with the client's real Telegram channel / bot link when provided.
-const TELEGRAM_URL = "https://t.me/";
+import { TELEGRAM_URL } from "@/lib/site";
+import { SiteFooter } from "@/components/site-footer";
 
 export function LandingPage({ content }: { content: SiteContent }) {
   return (
@@ -46,6 +45,7 @@ export function LandingPage({ content }: { content: SiteContent }) {
         <NotFor content={content} />
         <Faq content={content} />
       </main>
+      <SiteFooter content={content} />
     </LeadFormProvider>
   );
 }

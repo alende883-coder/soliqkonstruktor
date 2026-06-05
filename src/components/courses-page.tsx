@@ -2,6 +2,7 @@ import { CourseCatalog } from "@/components/course-catalog";
 import { LeadCta } from "@/components/lead-cta";
 import { LeadFormProvider } from "@/components/lead-form-provider";
 import { SiteHeader } from "@/components/site-header";
+import { SiteFooter } from "@/components/site-footer";
 import type { Course, CoursePageLabels } from "@/lib/courses";
 import type { SiteContent } from "@/lib/site-content";
 
@@ -33,6 +34,7 @@ export function CoursesPage({ content, courses, labels }: CoursesPageProps) {
           <CourseCatalog courses={courses} labels={labels} />
         </div>
       </main>
+      <SiteFooter content={content} activePage="courses" />
     </LeadFormProvider>
   );
 }

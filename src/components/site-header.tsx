@@ -37,12 +37,27 @@ export function SiteHeader({ content, activePage = "home" }: SiteHeaderProps) {
       <nav aria-label={content.navigation.ariaLabel}>
         {content.navigation.links.map((link) => {
           const isCoursesLink = link.href.includes("/courses");
+          const hashIndex = link.href.indexOf("#");
           const classes = [
             isCoursesLink ? "nav-cta" : "",
             isCourses && isCoursesLink ? "active" : "",
           ]
             .filter(Boolean)
             .join(" ");
+
+          // On the home page, in-page anchors use a native <a> so the browser
+          // scrolls reliably — Next's <Link> does not scroll for same-route hashes.
+          if (!isCourses && hashIndex !== -1) {
+            return (
+              <a
+                className={classes || undefined}
+                key={link.href}
+                href={link.href.slice(hashIndex)}
+              >
+                {link.label}
+              </a>
+            );
+          }
 
           return (
             <Link className={classes || undefined} key={link.href} href={link.href}>

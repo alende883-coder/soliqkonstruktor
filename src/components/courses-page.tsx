@@ -21,7 +21,7 @@ export function CoursesPage({ content, courses, labels }: CoursesPageProps) {
           <p className="eyebrow">{labels.eyebrow}</p>
           <h1>{labels.title}</h1>
           <p>{labels.text}</p>
-          <div className="hero-actions">
+          <div className="catalog-hero-cta">
             <LeadCta source="price" label={content.ctas.knowPrice} />
             <LeadCta
               source="course"
